@@ -1,15 +1,22 @@
-// Define un componente funcional llamado Navbar.
+import { useState } from "react";
+
 const Navbar = () => {
-  // Retorna la estructura (JSX) que define la interfaz del componente.
-  return (
-    // Contenedor principal simple.
-    <div>
-      {/* Muestra el título principal de la aplicación. */}
-      <p>Mi boletería</p>
-      {/* Un campo de entrada para que el usuario busque eventos. */}
-      <input placeholder="Busca tu evento favorito"></input>
-    </div>
-  );
+    const [search, setSearch] = useState('');
+
+    const handleInputChange = (evt) => {
+      setSearch(evt.target.value);
+    };
+    
+    return (
+      <div>
+        <p>Mi boletería</p>
+        <input
+          placeholder="Busca tu evento favorito"
+          onChange={handleInputChange}
+          value={search}
+        />
+      </div>
+    );
 };
 
 export default Navbar;
