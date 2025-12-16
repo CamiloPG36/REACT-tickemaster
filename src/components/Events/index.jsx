@@ -1,33 +1,46 @@
-// Importa el hook useState de React para manejar el estado dentro del componente.
 import { useState } from "react";
-
 import EventItem from "./components/EventItem/index";
-import eventsJSON from "../../data/events.json"
+import eventsJSON from "../../data/events.json";
 
-
-const Events = () => {
-    // Inicializa el estado 'data' con el contenido del JSON importado.
+const Events = ({ searchTerm }) => {
+    // Se mantiene el estado inicial con los datos del JSON.
     const [data] = useState(eventsJSON);
-    const { _embedded: {events}} = data;
+    const { _embedded: { events } } = data;
 
-    // Esta función se pasa al componente hijo (EventItem) mediante props. Cuando el hijo la llama, recibe el 'id' del evento clickeado y lo logea.
+    // Manejador que recibe el 'id' desde el componente hijo (EventItem) al hacer clic.
     const handleEventItemClick = (id) => {
         console.log('event clickeado: ', id);
+    };
+    
+    // Función que procesa el filtrado y genera la lista de componentes.
+    const renderEvents = () => {
+        let eventsFiltered = events;
+
+        // Si hay un término de búsqueda, se filtra el arreglo comparando nombres en minúsculas.
+        if (searchTerm.length > 0) {
+            eventsFiltered = eventsFiltered.filter((item) => 
+                item.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+            );
+        }
+
+        // Se retorna el array de componentes EventItem ya filtrado.
+        return eventsFiltered.map((eventItem) => (
+            <EventItem
+                key={`event-item-${eventItem.id}`}
+                name={eventItem.name}
+                info={eventItem.info}
+                image={eventItem.images[0].url}
+                onEventClick={handleEventItemClick} 
+                id={eventItem.id} 
+            />
+        ));
     };
 
     return (
         <div>
             Eventos
-            {events.map((eventItem) => (
-                <EventItem
-                    key={`event-item-${eventItem.id}`}
-                    name={eventItem.name}
-                    info={eventItem.info}
-                    image={eventItem.images[0].url}
-                    onEventClick={handleEventItemClick} // Pasa la función handleEventItemClick como una prop.
-                    id={eventItem.id} // Pasa el ID también como prop
-                />
-            ))}
+            {/* Se ejecuta la función de renderizado para mostrar los resultados filtrados. */}
+            {renderEvents()}
         </div>
     );
 };

@@ -1,16 +1,24 @@
-import Navbar from './components/Navbar/index';
-import './App.css'
-import Events from './components/Events';
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Events from "./components/Events";
 
-function App() {
-  
+const App = () => {
+  // Estado que almacenará el término de búsqueda final (al dar Enter)
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Esta función recibe el valor desde el Navbar y actualiza el estado de App
+  const handleNavbarSearch = (term) => {
+    setSearchTerm(term);
+  };
 
   return (
     <>
-      <Navbar />
-      <Events />
+      {/* Se pasa la función para capturar la búsqueda */}
+      <Navbar onSearch={handleNavbarSearch} />
+      {/* Se pasa el término de búsqueda para que Events lo use en su filtro */}
+      <Events searchTerm={searchTerm} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

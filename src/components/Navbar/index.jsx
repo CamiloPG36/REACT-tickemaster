@@ -1,13 +1,19 @@
-// Importa el hook useState para añadir estado al componente Navbar.
 import { useState } from "react";
 
-const Navbar = () => {
-    // Variable de estado 'search' (inicialmente vacía) y su función actualizadora 'setSearch'.
+const Navbar = ({ onSearch }) => {
+    // Estado local para controlar lo que el usuario escribe en el input.
     const [search, setSearch] = useState('');
 
-    // Manejador que se ejecuta cada vez que el usuario escribe en el input.
+    // Actualiza el estado 'search' cada vez que el usuario teclea.
     const handleInputChange = (evt) => {
-      setSearch(evt.target.value); // Actualiza el estado 'search' con el texto actual del input.
+      setSearch(evt.target.value);
+    };
+
+    // Al presionar 'Enter', se ejecuta la función onSearch enviando el término al componente padre.
+    const handleInputKeyDown = (evt) => {
+        if (evt.key === 'Enter') {
+            onSearch(search);
+        }
     };
 
     return (
@@ -15,8 +21,9 @@ const Navbar = () => {
         <p>Mi boletería</p>
         <input
           placeholder="Busca tu evento favorito"
-          onChange={handleInputChange} // Asocia el cambio de valor al manejador.
-          value={search} // El input está "controlado" por el estado 'search'.
+          onChange={handleInputChange} 
+          onKeyDown={handleInputKeyDown} 
+          value={search} // El valor del input está ligado al estado local.
         />
       </div>
     );
