@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Events from "./components/Events";
+import SignupForm from "./components/SignupForm";
 
 const App = () => {
   // Estado que almacenará el término de búsqueda final (al dar Enter)
@@ -17,6 +18,7 @@ const App = () => {
       <Navbar onSearch={handleNavbarSearch} />
       {/* Se pasa el término de búsqueda para que Events lo use en su filtro */}
       <Events searchTerm={searchTerm} />
+      <SignupForm />
     </>
   );
 }
