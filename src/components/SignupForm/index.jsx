@@ -1,60 +1,57 @@
-import { useState } from "react";
+import { useForm } from 'react-hook-form';
 
-// Definición del componente funcional SignupForm
+// Definición del componente funcional SignupForm usando React Hook Form
 const SignupForm = () => {
-    //  Definición de los estados para controlar los inputs del formulario.
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [address, setAddress] = useState('');
-    const [zipcode, setZipcode] = useState('');
-    const [phone, setPhone] = useState('');
+    // Desestructuración de métodos de useForm:
+    // register: conecta los inputs con la librería.
+    // handleSubmit: envuelve la función de envío y gestiona validaciones.
+    // reset: limpia el formulario de forma automática.
+    // errors: objeto que contiene los errores de validación.
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-    // Función para resetear los valores de los estados a su valor inicial (vacío)
+    // Función para resetear todos los campos del formulario a sus valores iniciales
     const handleClearClick = () => {
-        setName('');
-        setAge('');
-        setAddress('');
-        setZipcode('');
-        setPhone('');
+        reset();
+    };
+
+    // Manejador del envío. 'data' contiene un objeto con todos los valores de los inputs.
+    const handleSubmitForm = (data) => {
+        console.log('Datos del formulario:', data);
     }
 
-    // Manejador del envío del formulario. Recibe el evento 'evt' como parámetro.
-    const handleSubmitForm = (evt) => {
-        evt.preventDefault(); // Evita que se actualice la página de manera automática
+    // Registro de errores en consola para monitorear validaciones en tiempo real
+    console.log('Errores actuales:', errors);
 
-    }
-
-    // Estructura visual del formulario (JSX)
     return (
-        <form onSubmit={handleSubmitForm}>
-            <label >
+        /* handleSubmit se encarga de prevenir el comportamiento por defecto y validar */
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
+            <label>
                 Name
-                {/* El valor del input depende del estado (value) y lo actualiza (onChange) */}
-                <input value={name} onChange={(evt) => setName(evt.target.value)} required />
+                {/* El operador spread (...) inyecta el name, onChange, onBlur y ref automáticamente */}
+                <input {...register('name', { required: true })} />
             </label>
             <br />
-            <label >
+            <label>
                 Age
-                <input value={age} onChange={(evt) => setAge(evt.target.value)} required />
+                <input {...register('age', { required: true })} />
             </label>
             <br />
-            <label >
+            <label>
                 Address
-                <input value={address} onChange={(evt) => setAddress(evt.target.value)} required />
+                <input {...register('address', { required: true })} />
             </label>
             <br />
-            <label >
+            <label>
                 Zipcode
-                <input value={zipcode} onChange={(evt) => setZipcode(evt.target.value)} required />
+                <input {...register('zipcode', { required: true })} />
             </label>
             <br />
-            <label >
+            <label>
                 Phone
-                <input value={phone} onChange={(evt) => setPhone(evt.target.value)} required />
+                <input {...register('phone', { required: true })} />
             </label>
             <br />
             <div>
-                {/* type="button" es vital para que este botón no envíe el formulario por error */}
                 <button type="button" onClick={handleClearClick}>Clear</button>
                 <button type="submit">Submit</button>
             </div>
