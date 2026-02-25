@@ -16,11 +16,8 @@ const SignupForm = () => {
 
     // Manejador del envío. 'data' contiene un objeto con todos los valores de los inputs.
     const handleSubmitForm = (data) => {
-        console.log('Datos del formulario:', data);
-    }
-
-    // Registro de errores en consola para monitorear validaciones en tiempo real
-    console.log('Errores actuales:', errors);
+        console.log(data);
+    };
 
     return (
         /* handleSubmit se encarga de prevenir el comportamiento por defecto y validar */

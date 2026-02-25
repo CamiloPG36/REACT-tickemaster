@@ -1,11 +1,8 @@
-import { useState } from "react";
+import useEventData from "../../hooks/useEventsData";
 import EventItem from "./components/EventItem/index";
-import eventsJSON from "../../data/events.json";
 
 const Events = ({ searchTerm }) => {
-    // Se mantiene el estado inicial con los datos del JSON.
-    const [data] = useState(eventsJSON);
-    const { _embedded: { events } } = data;
+    const { events } = useEventData();
 
     // Manejador que recibe el 'id' desde el componente hijo (EventItem) al hacer clic.
     const handleEventItemClick = (id) => {
